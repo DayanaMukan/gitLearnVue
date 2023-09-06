@@ -2,6 +2,7 @@
 import{defineProps,computed} from 'vue'
 import Card from  'primevue/card';
 import Chip from 'primevue/chip';
+            
 
 
 const props = defineProps({
@@ -86,22 +87,22 @@ const carRemake = computed(() => {
 </template>
 <style scoped>
 main{
-    height: 1500px;
-    width: 800px;
+    height: 800px;
+    width: 500px;
     display: flex;
     flex-direction:row;
-    margin-left: 150px;
+    margin-left: 100px;
     margin-top: 20px;
-    
 }
 .box{
     background-color: black;
-    height: 500px;
-    width: 300px;
+    height: 600px;
+    width: 800px;
 }
 img{
-    margin-top: 50px;
-    margin-left: 40px;
+    margin-top: 30px;
+    height: 250px;
+    width: 250px;
 }
 p{
     color: rgb(41, 134, 55);
