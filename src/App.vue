@@ -1,6 +1,7 @@
 <script setup>
 import CarTable from '@/components/CarTable.vue'
 import CarList from '@/components/CarList.vue'
+import NavbarComponent from '@/components/layouts/NavbarComponet.vue'
 
 
 
@@ -29,6 +30,7 @@ const cars = [
 </script>
 
 <template>
+    <NavbarComponent/>
     <CarList :cars="cars"/>
     <CarTable :cars="cars"/>
 </template>
