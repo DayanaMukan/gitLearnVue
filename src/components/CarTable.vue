@@ -1,25 +1,38 @@
 <template>
-    <DataTable :value="cars">
-      <Column v-for="column in carColumns" :key="column.field" :field="column.field" :header="column.header">
-        <template #body="{ data }">
-          <template v-if="column.field === 'criticScore'">
-            <Dropdown :modelValue="data.criticScore" :options="numberMarks" optionLabel="header" optionValue="mark" class="dropdown" @change="setCriticScore(data, $event)" />
-          </template>
-          <template v-else>{{ data[column.field] }} </template>
-        </template>
-      </Column>
+    <DataTable :value="autoList" :loading="loading.autoList">
+      <Column v-for="column in carColumns" :key="column.field" :field="column.field" :header="column.header"/>
     </DataTable>
   </template>
   
   <script setup>
-  import { defineProps, ref } from 'vue'
+  import {/*ref*/ onMounted } from 'vue'
   import DataTable from 'primevue/datatable'
   import Column from 'primevue/column'
-  import Dropdown from 'primevue/dropdown'
+  import {useAuto} from '../composable/useAuto'
+
+  const {autoList,getAutoList,loading} = useAuto();
+
+  onMounted(() => {
+    getAutoList();
+  })
+
+  const carColumns = [
+  { field: 'id', header: '#' },
+  { field: 'brand', header: 'Бренд' },
+  { field: 'price', header: 'Цена' },
+  { field: 'year', header: 'Год' },
+  { field: 'volume', header: 'Объем' },
+  { field: 'color', header: 'Цвет' },
+  { field: 'saled', header: 'Продано' },
+  { field: 'city', header: 'Город' },
+  { field: 'carcase', header: 'Кузов' },
+  { field: 'gear', header: 'Коробка' },
+  { field: 'travel', header: 'Пробег' },
+]
 
 
-
-  const props = defineProps({
+  
+  /*const props = defineProps({
     cars: {
       type: Array,
       required: true,
@@ -32,36 +45,11 @@
     data.criticScore = event.value
     console.log(data.criticScore)
   
-  }
+  }*/
   
-  const carColumns = [
-    {
-      field: 'brand',
-      header: 'Марка',
-    },
-    {
-      field: 'price',
-      header: 'Цена',
-    },
-    {
-      field: 'year',
-      header: 'Год выпуска',
-    },
-    {
-      field: 'volume',
-      header: 'Объем двигателя',
-    },
-    {
-      field: 'color',
-      header: 'Цвет',
-    },
-    {
-      field: 'criticScore',
-      header: 'Оценка критика',
-    },
-  ]
   
-  const numberMarks = [
+  
+  /*const numberMarks = [
     {
       mark: 0,
       header: 'Это Део Нексия',
@@ -90,11 +78,11 @@
       mark: 6,
       header: 'Это Бенли',
     },
-  ]
+  ]*/
   </script>
   
   <style scoped>
-  .dropdown {
+    .dropdown {
     width: 100%;
   }
   </style>
