@@ -3,7 +3,8 @@ import CarTable from '@/components/CarTable.vue'
 import CarList from '@/components/CarList.vue'
 import NavbarComponent from '@/components/layouts/NavbarComponet.vue'
 import CarAddModal from '@/components/CarAddModal.vue'
-
+import MyPanel from '@/components/MyPanel.vue';
+// import MyToast from '@/components/MyToast.vue';
 
 
 
@@ -31,6 +32,8 @@ import CarAddModal from '@/components/CarAddModal.vue'
 </script>
 
 <template>
+    <!-- <MyToast/> -->
+    <MyPanel/>
     <NavbarComponent/>
     <CarAddModal/>
     <CarList/>

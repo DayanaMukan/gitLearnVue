@@ -2,26 +2,35 @@ import { collection,getDocs, addDoc } from 'firebase/firestore'
 import { db } from '@/firebases'
 // import { getStorage, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { ref } from 'vue'
+import { computed } from 'vue'
+import { /*createId*/formatDate } from '@/services/methods'
+
+
+/*const createId = () => {
+  return new Date().getTime().toString()
+}
+console.log(createId)*/
+
 
 export const useAuto = () =>{
-  const auto = ref({
+  const newAuto = ref({
     id: '',
     brand: '',
     price: '',
-    saled: false,
-    city: '',
-    carcase: '',
+    year: '',
     volume: '',
     color: '',
+    saled: 'false',
+    city: '',
+    carcase: '',
     gear: '',
-    year: '',
-    travel: '',
-    images: [],
+    travel: '0',
+    image: null,
   })
 
 
   const autoList = ref({})
-  const newAuto = ref({})
+  const auto = ref(null)
 
   const loading = ref({
     auto: false,
@@ -29,11 +38,28 @@ export const useAuto = () =>{
     newAuto: false,
   })
 
+  const autoListRemake = computed(() => {
+    const _autoListRemake = autoList.value.map((auto) => {
+      auto.price = `${parseInt(auto.price)} KZT`
+      auto.volume = `${auto.volume} л`
+      auto.travel = `${auto.travel} км`
+      auto.year = formatDate(auto.year)
+      auto.age = `${new Date().getFullYear() - auto.year}г`
+      auto.color = `#${auto.color}`
+      return auto
+    })
+    return _autoListRemake || []
+  })
+
+
+
   async function createAuto() {
     loading.value.newAuto = true 
     try {
       await addDoc(collection(db, 'autos'), newAuto.value).then(() => {
-        console.log('Cars added')
+        async() => {
+          await getAutoList()
+        }
       })
     } catch (e) {
       console.error('Error: ', e)
@@ -55,11 +81,29 @@ async function getAutoList() {
   }
 }
 
+function clear(){
+  newAuto.value = {
+    brand: '',
+    price: '',
+    year: '',
+    volume: '',
+    color: '',
+    saled: 'false',
+    city: '',
+    carcase: '',
+    gear: '',
+    travel: '0',
+    image: null,
+  }
+}
+
 return{
   createAuto,
   getAutoList,
+  clear,
   auto,
-  autoList,
+  newAuto,
+  autoListRemake,
   loading,
 }
 }

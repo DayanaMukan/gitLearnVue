@@ -5,15 +5,15 @@
                     <div class="p-fluid">
                       <div class="p-field">
                         <label for="brand">Бренд</label>
-                        <Dropdown id="brand" v-model="car.brand" editable :options="brandLabel" option-label="brand" option-value="brand" placeholder="Бренд" />
+                        <Dropdown id="brand" v-model="newAuto.brand" editable :options="brandLabel" option-label="brand" option-value="brand" placeholder="Бренд" />
                       </div>
                       <div class="p-field">
                         <label for="price">Цена</label>
-                        <InputNumber id="price" v-model="car.price" mode="currency" currency="KZT" locale="ru-ru" />
+                        <InputNumber id="price" v-model="newAuto.price" mode="currency" currency="KZT" locale="ru-ru" />
                       </div>
                       <div class="p-field">
                         <label for="year">Год</label>
-                        <Calendar id="year" v-model="car.year" view="year" dateFormat="yy" />
+                        <Calendar id="year" v-model="newAuto.year" view="year" dateFormat="yy" />
                       </div>
                       <div class="p-field">
                         <label for="volume">Объем</label>
@@ -28,25 +28,25 @@
                         <Dropdown id="city" v-model="city" :options="cities" optionLabel="city" placeholder="Select a City" class="w-full md:w-14rem" />
                       </div>
                       <div class="p-field">
-                        <label for="carcase">Кузов</label>
+                        <label for="newAutocase">Кузов</label>
                         <!-- DropDown -->
-                        <InputText id="carcase" v-model="car.carcase" />
+                        <InputText id="newAutocase" v-model="newAuto.newAutocase" />
                       </div>
                       <div class="p-field">
                         <label for="gear">Коробка</label>
                         <!-- RadioButton -->
-                        <InputText id="gear" v-model="car.gear" />
+                        <InputText id="gear" v-model="newAuto.gear" />
                       </div>
                       <div class="p-field">
                         <!-- Slider -->
                         <label for="travel">Пробег</label>
-                        <InputText id="travel" v-model="car.travel" />
+                        <InputText id="travel" v-model="newAuto.travel" />
                       </div>
                     </div>
                   </template>              
                 <template #footer>
-                    <Button label="Сбросить" icon="pi pi-times" @click="toggleVisible" text />
-                    <Button label="Добавить" icon="pi pi-check" @click="toggleVisible" autofocus />
+                    <Button label="Сбросить" icon="pi pi-times" @click="clearAuto" text />
+                    <Button label="Добавить" icon="pi pi-check" @click="addAuto" autofocus />
                 </template>
             </Dialog>
     </template>
@@ -59,6 +59,31 @@
     import InputNumber from 'primevue/inputnumber';
     import Calendar from 'primevue/calendar';
     import ColorPicker from 'primevue/colorpicker';
+    import { useAuto } from '@/composable/useAuto'
+
+
+
+  
+
+    const {newAuto,createAuto,loading,clear} = useAuto()
+    console.log(loading)
+
+    const visible = ref (false)
+    const toggleVisible = ()  => {
+        visible.value = !visible.value
+    }
+
+    async function addAuto(){
+      await createAuto()
+      toggleVisible()
+    }
+
+
+    function clearAuto(){
+      clear()
+      toggleVisible()
+    }
+
 
 
     const city = ref();
@@ -70,24 +95,7 @@
         { name: 'Aktau', code: 'Akt' }
     ]);
 
-    const visible = ref (false)
-
-    const toggleVisible = ()  => {
-        visible.value = !visible.value
-    }
-
-    const car = ref({
-  brand: '',
-  price: '',
-  year: '',
-  volume: '',
-  color: '',
-  saled: '',
-  city: '',
-  carcase: '',
-  gear: '',
-  travel: '',
-})
+    
 
     const brandLabel = [
     { brand: 'BMW' },
@@ -108,9 +116,6 @@
     { brand: 'Renault' },
     { brand: 'Peugeot' },
     ]
-
-
-  
     </script>
 
 <style scoped>

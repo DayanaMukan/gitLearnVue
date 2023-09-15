@@ -1,7 +1,19 @@
 <template>
-    <DataTable :value="autoList" :loading="loading.autoList">
-      <Column v-for="column in carColumns" :key="column.field" :field="column.field" :header="column.header"/>
-    </DataTable>
+  <DataTable :value="autoListRemake" :loading="loading.autoList">
+    <Column v-for="column in carColumns" :key="column.field" :field="column.field" :header="column.header">
+      {{ column.field }}
+      <template #body="slotProps">
+        <span v-if="column.field === 'saled'">
+          <Checkbox v-model="slotProps.data.saled" binary checked readonly />
+        </span>
+        <span v-else-if="column.field === 'color'">
+          <ColorPicker  v-model="slotProps.data.color" disabled/>
+        </span>
+        <span v-else>{{ slotProps.data[column.field] }}</span>
+      </template>
+    </Column>
+  </DataTable>
+
   </template>
   
   <script setup>
@@ -9,8 +21,10 @@
   import DataTable from 'primevue/datatable'
   import Column from 'primevue/column'
   import {useAuto} from '../composable/useAuto'
+  import Checkbox from 'primevue/checkbox'
+  import ColorPicker from 'primevue/colorpicker'
 
-  const {autoList,getAutoList,loading} = useAuto();
+  const {/*autoList*/getAutoList,loading} = useAuto();
 
   onMounted(() => {
     getAutoList();
@@ -82,8 +96,8 @@
   </script>
   
   <style scoped>
-    .dropdown {
-    width: 100%;
-  }
+    :deep(.p-disabled){
+      opacity: 1 !important;
+    }
   </style>
   
