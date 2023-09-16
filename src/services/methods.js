@@ -1,10 +1,10 @@
 export function createId() {
-    return new Date().getTime().toString(); // Маленькая 'g' в методе 'getTime'
-}
-
-export function formatDate(date) {
-    const options = {
-        year: 'numeric',
-    };
-    return date.toLocaleDateString(undefined, options); // Метод 'toLocaleDateString' и исправлен вызов 'date'
-}
+    return new Date().getTime().toString()
+  }
+  
+  export function formatDate(date) {
+    const _date = new Date(date.seconds * 1000)
+    const year = _date.getFullYear()
+  
+    return Number(year)
+  }

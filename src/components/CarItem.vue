@@ -1,126 +1,43 @@
 <script setup>
-import{defineProps,computed} from 'vue'
-import Card from  'primevue/card';
-import Chip from 'primevue/chip';
-            
+import { defineProps } from 'vue'
+import Card from 'primevue/card'
+import Chip from 'primevue/chip'
 
-
-const props = defineProps({
-    car: {
-        type: Object,
-        required: true,
-    },
+defineProps({
+  auto: {
+    type: Object,
+    required: true,
+  },
 })
-const carRemake = computed(() => {
-    return{
-    ...props.car,
-    price: props.car.price + 't',
- }
+
+function changeColor(color) {
+  const crappyColors = ['#FF0000', '#00FF00', '#0000FF']
+  if (crappyColors.includes(color)) {
+    return true
+  }
+  return false
 }
-)
-
-
-/*function changeColor(color){
-    const crappyColors = ['#FF0000','#00FF00','#0000FF']
-    if (crappyColors.includes(color)){
-        return true
-    }
-    return false
-}*/
-
 </script>
 
 <template>
-    <main>
-    <Card class="box">
-        <template #header> <img :src="carRemake.image" alt="car" /></template>
-        <template #content>
-            <h2>{{ carRemake.brand }}</h2>
-            <p>Цена: {{carRemake.price }}</p>
-            <p>Год выпуска: {{ carRemake.year }}</p>
-            <p>Объем двигателя: {{ carRemake.volume }}</p>
-            <p :style="`color:$carRemake.color`">Цвет: {{carRemake.color }}</p>
-        </template>
-        <template #footer>
-            <div class="chipes">
-                <Chip v-if="Number(carRemake.price.slice(0,-1)) > 10000" label="Дорогой" icon="pi pi-apple"/>
-                <Chip v-else-if="Number(carRemake.year) <= 1960" label="Старый" icon="pi-thumbs-down-fill"/>
-                <Chip v-else label="скучный" icon="pi pi-eye-slash"/>
-            </div>
-        </template>
-    </Card>
-    <Card class="box">
-        <template #header> <img :src="carRemake.image" alt="car" /></template>
-        <template #content>
-            <h2>{{ carRemake.brand }}</h2>
-            <p>Цена: {{carRemake.price }}</p>
-            <p>Год выпуска: {{ carRemake.year }}</p>
-            <p>Объем двигателя: {{ carRemake.volume }}</p>
-            <p :style="`color:$carRemake.color`">Цвет: {{carRemake.color }}</p>
-        </template>
-        <template #footer>
-            <div class="chipes">
-                <Chip v-if="Number(carRemake.price.slice(0,-1)) > 10000" label="Средний" icon="pi pi-apple"/>
-                <Chip v-else-if="Number(carRemake.year) <= 1960" label="Старый" icon="pi-thumbs-down-fill"/>
-                <Chip v-else label="скучный" icon="pi pi-eye-slash"/>
-            </div>
-        </template>
-    </Card>
-    <Card class="box">
-        <template #header> <img :src="carRemake.image" alt="car" /></template>
-        <template #content>
-            <h2>{{ carRemake.brand }}</h2>
-            <p>Цена: {{carRemake.price }}</p>
-            <p>Год выпуска: {{ carRemake.year }}</p>
-            <p>Объем двигателя: {{ carRemake.volume }}</p>
-            <p :style="`color:$carRemake.color`">Цвет: {{carRemake.color }}</p>
-        </template>
-        <template #footer>
-            <div class="chipes">
-                <Chip v-if="Number(carRemake.price.slice(0,-1)) > 10000" label="Доступный" icon="pi pi-apple"/>
-                <Chip v-else-if="Number(carRemake.year) <= 1960" label="Старый" icon="pi-thumbs-down-fill"/>
-                <Chip v-else label="скучный" icon="pi pi-eye-slash"/>
-            </div>
-        </template>
-    </Card>
-</main>
+  <Card>
+    <template #header>
+      <img alt="car" class="car-image" />
+    </template>
+
+    <template #title> {{ auto.brand }} </template>
+
+    <template #content>
+      <p>Цена: {{ auto.price }}</p>
+      <p>Год выпуска: {{ auto.year }}</p>
+      <p>Объем двигателя: {{ auto.volume }}</p>
+      <p :style="`color: ${auto.color}`">Цвет: {{ auto.color }}</p>
+    </template>
+    <template #footer>
+      <Chip v-if="Number(auto.price.slice(0, -1)) > 1000000" label="Дорогой" icon="pi pi-apple" />
+      <Chip icon="pi pi-history" label="Старый" v-else-if="Number(auto.year) <= 1960" />
+      <Chip icon="pi pi-briefcase" label="Скучный" v-else />
+      <Chip icon="pi pi-eye-slash" label="Конченный цвет" v-if="changeColor(auto.color)" />
+    </template>
+  </Card>
 </template>
-<style scoped>
-main{
-    height: 800px;
-    width: 500px;
-    display: flex;
-    flex-direction:row;
-    margin-left: 100px;
-    margin-top: 20px;
-}
-.box{
-    background-color: black;
-    height: 600px;
-    width: 800px;
-}
-img{
-    margin-top: 30px;
-    height: 250px;
-    width: 250px;
-}
-p{
-    color: rgb(41, 134, 55);
-    margin-left: 40px;
-}
-div{
-    margin-left: 20px;
-}
-h2{
-    margin-left: 70px;
-}
-.chipes{
-    display: flex;
-    flex-direction:row;
-    margin-top: -20px;
-}
-
-
-</style>
-
-<script setup></script>
