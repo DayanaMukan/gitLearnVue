@@ -44,8 +44,17 @@
         </div>
         <div class="p-field">
           <label for="photo">Картинки</label>
-          <FileUpload id="photo" v-model="newAuto.image" mode="basic" accept="image/*" @select="onUpload" />
+          <FileUpload id="photo" v-model="newAuto.image" mode="basic" accept="image_for_vue.jpg" @select="onUpload" />
         </div>
+        <form class="input__wrapper" enctype="multipart/form-data">
+          <input id="inputfile" class="input inputfile" name="images" type="file" accept=".jpg, .png" @input="onUpload($event)" />
+          <label for="inputfile" class="inputfile-button">
+            <span class="input__file-icon-wrapper">
+              <img class="input__file-icon" src="" alt="Выбрать файл" width="25" />
+            </span>
+            <span class="input__file-button-text">Машинка</span>
+          </label>
+        </form>
       </div>
     </template>
     <template #footer>
@@ -68,7 +77,13 @@ import Slider from 'primevue/slider'
 import FileUpload from 'primevue/fileupload'
 import { useAuto } from '@/composable/useAuto'
 
-const { newAuto, createAuto, /*loading*/ clear, uploadImage } = useAuto()
+
+async function onUpload(e) {
+  const image = e.target.files[0]
+  await uploadImage(image)
+}
+
+const { newAuto,createAuto, /*loading*/ clear, uploadImage } = useAuto()
 
 const visible = ref(false)
 const toggleVisible = () => {
@@ -78,11 +93,6 @@ const toggleVisible = () => {
 async function addAuto() {
   await createAuto()
   toggleVisible()
-}
-
-async function onUpload(event) {
-  console.log(event)
-  await uploadImage(event)
 }
 
 function clearAuto() {

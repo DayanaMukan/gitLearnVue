@@ -1,8 +1,9 @@
 import { collection, getDocs, addDoc } from 'firebase/firestore'
 import { db } from '@/firebases'
-import { getStorage, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { getStorage, uploadBytes } from 'firebase/storage'
 import { ref, computed } from 'vue'
 import { createId, formatDate } from '@/services/methods'
+import * as firebase from 'firebase/storage'
 
 export const useAuto = () => {
   // reactive part
@@ -68,21 +69,27 @@ export const useAuto = () => {
     }
   }
 
-  async function uploadImage(/*event*/) {
-    loading.value.newAuto = true
-    try {
-      const storage = getStorage()
-      const storageRef = ref(storage, `images/${newAuto.value.id}`)
-      await uploadBytes(storageRef, newAuto.value.image).then(async () => {
-        await getDownloadURL(storageRef).then((url) => {
-          newAuto.value.image = url
-        })
+  async function uploadImage(file) {
+    console.log(file)
+    const storage = getStorage()
+    console.log(storage)
+    const storageRef = firebase.ref(storage, 'autos/' + file.name)
+    console.log(storageRef)
+  
+    uploadBytes(storageRef, file)
+      .then(() => {
+        console.log('Файл успешно загружен!')
+        firebase.getDownloadURL(storageRef)
+          .then((downloadURL) => {
+            newAuto.value.image = downloadURL
+          })
+          .catch((error) => {
+            console.error('Ошибка получения ссылки на загруженный файл:', error)
+          })
       })
-    } catch (e) {
-      console.error('Error: ', e)
-    } finally {
-      loading.value.newAuto = false
-    }
+      .catch((error) => {
+        console.error('Ошибка загрузки файла:', error)
+      })
   }
 
   function clear() {
@@ -115,3 +122,4 @@ export const useAuto = () => {
     loading,
   }
 }
+

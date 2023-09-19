@@ -1,11 +1,11 @@
 <template>
     <div class="card">
-        <MyPanel header="Panel" :toggleable="true" :collapsed="panelCollapsed"  @toggle="togglePanel">
+        <MyPanel header="Panel" :toggleable="true" :collapsed="panelCollapsed" @toggle="togglePanel">
             <p class="m-0">
                 <label for="name">Name-Surname</label>
-                <InputText id="name" v-model="value2" type="text" :class="{ 'p-invalid': errorMessage }" aria-describedby="text-error" /><br><br>
+                <InputText id="name" v-model="value2" type="text" :class="{ 'p-invalid': errorMessage }" aria-describedby="text-error" /><br /><br />
                 <label for="phone">Phone</label>
-                <InputMask v-model="value3" date="phone" id="phone" mask="+9 (999) 999-9999" placeholder="+9 (999) 999-9999" /><br><br>
+                <InputMask v-model="value3" date="phone" id="phone" mask="+9 (999) 999-9999" placeholder="+9 (999) 999-9999" /><br /><br />
                 <label for="e-mail">E-mail</label>
                 <InputText id="e-mail" v-model="value" />
             </p>
@@ -14,28 +14,38 @@
 </template>
 
 <script setup>
-   import MyPanel from 'primevue/panel';
-   import InputText from 'primevue/inputtext';
-   import { ref } from 'vue';
-   import InputMask from 'primevue/inputmask';
+import MyPanel from 'primevue/panel';
+import InputText from 'primevue/inputtext';
+import { ref } from 'vue';
+import InputMask from 'primevue/inputmask';
+//import { ToastService } from 'primevue/toast';
 
-    const value = ref(null);
-    const value2 = ref(null);
-    const value3 = ref(null);
-    const panelCollapsed = ref(true);
+const value = ref(null);
+const value2 = ref(null);
+const value3 = ref(null);
+const panelCollapsed = ref(true);
 
-    const togglePanel = () => {
-        panelCollapsed.value=!panelCollapsed.value
+/*const togglePanel = () => {
+    panelCollapsed.value = !panelCollapsed.value;
+    
+    if (!value.value || !value2.value || !value3.value) {
+        ToastService.add({
+            severity: 'warn',
+            summary: 'Warning',
+            detail: 'Some form fields are empty!'
+        });
     }
+};*/
 </script>
+
 <style scoped>
-#e-mail{
+#e-mail {
     margin-left: 100px;
 }
-#phone{
+#phone {
     margin-left: 100px;
 }
-#name{
+#name {
     margin-left: 33px;
 }
 </style>
