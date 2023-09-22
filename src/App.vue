@@ -2,7 +2,7 @@
 import NavbarComponet from './components/layouts/NavbarComponet.vue'
 import MyPanel from './components/MyPanel.vue'
 import MyFooter from './components/MyFooter.vue'
-import MyNavbar from './components/MyNavbar.vue'
+import MyMenubar from './components/MyMenubar.vue'
 import {RouterView} from 'vue-router'
 import CarAddModal from './components/CarAddModal.vue'
 </script>
@@ -10,7 +10,7 @@ import CarAddModal from './components/CarAddModal.vue'
 <template>
   <NavbarComponet />
   <CarAddModal/>
-  <MyNavbar />
+  <MyMenubar />
   <MyPanel />
   <router-view/>
   <MyFooter />

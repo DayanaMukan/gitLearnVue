@@ -1,5 +1,7 @@
 
 <template>
+  <Button icon="pi pi-plus" @click="toggleVisible" label="Добавить авто" />
+
   <button type="button" class="p-link p-ml-auto" @click="googleRegister">
     <i class="pi pi-user"></i>
   </button>

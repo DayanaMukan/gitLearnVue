@@ -113,6 +113,7 @@ export const useAuto = () => {
       })
   }
 
+  
   function clear() {
     newAuto.value = {
       id: '',

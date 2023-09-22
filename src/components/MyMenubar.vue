@@ -1,11 +1,18 @@
 <template>
-    <nav>
+    <menu>
         <Menubar :model="items" />
-    </nav>
+        <button type="button" class="p-link p-ml-auto" @click="googleRegister">
+            <i class="pi pi-user"></i>
+          </button>
+          <button type="button" class="p-link p-ml-auto" @click="createAuto">
+            <i class="pi pi-plus"></i>
+          </button>
+    </menu>
 </template>
 <script setup>
 import { ref } from "vue";
 import Menubar from 'primevue/menubar';
+
 const items = ref([
     {
         label: 'File',
@@ -131,7 +138,7 @@ const items = ref([
 ]);
 </script>
 <style scoped>
-    nav{
+    menu{
         min-width: 100px;
         min-height: 70px;
         background-color: chocolate;
