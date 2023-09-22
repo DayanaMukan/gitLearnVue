@@ -1,5 +1,6 @@
 import {createRouter,createWebHistory} from 'vue-router'
-const router = createWebHistory({
+const router = createRouter({
+    history: createWebHistory(null), 
     routes:[
         {
             path:'/',
@@ -17,11 +18,16 @@ const router = createWebHistory({
             component:() => import('../views/ProfilePage.vue'),
         },
         {
+            path:'/car/:id',
+            name:'car',
+            component:() => import('../views/CarIdPage.vue'),
+        },
+        {
             path:'/:pathMatch(.*)*',
             name:'not-found',
             component:() => import('../views/NotFoundPage.vue'),
         },
-    ]
+    ],
 })
 
 export default router

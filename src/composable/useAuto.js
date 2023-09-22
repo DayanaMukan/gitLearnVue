@@ -1,6 +1,6 @@
 import { collection, getDocs, addDoc } from 'firebase/firestore'
 import { db } from '@/firebases'
-import { getStorage, uploadBytes } from 'firebase/storage'
+import { getStorage } from 'firebase/storage'
 import { ref, computed } from 'vue'
 import { createId, formatDate } from '@/services/methods'
 import * as firebase from 'firebase/storage'
@@ -25,6 +25,7 @@ export const useAuto = () => {
   const autoList = ref([])
   const auto = ref(null)
 
+
   const loading = ref({
     auto: false,
     autoList: false,
@@ -44,6 +45,9 @@ export const useAuto = () => {
     return _autoListRemake || []
   })
 
+  
+
+
   async function createAuto() {
     loading.value.newAuto = true
     try {
@@ -54,6 +58,23 @@ export const useAuto = () => {
       console.error('Error: ', e)
     }
   }
+
+  async function getAuto(id) {
+    loading.value.auto = true
+    try {
+      const querySnapshot = await getDocs(collection(db,'autos'))
+      querySnapshot.forEach((doc)=>{
+        if(doc.data().id === id){
+          auto.value = doc.data()
+        }
+      })
+    } catch(e){
+      console.error('Error:',e)
+    } finally{
+      loading.value.auto = false
+    }
+  }
+
 
   async function getAutoList() {
     loading.value.autoList = true
@@ -76,7 +97,7 @@ export const useAuto = () => {
     const storageRef = firebase.ref(storage, 'autos/' + file.name)
     console.log(storageRef)
   
-    uploadBytes(storageRef, file)
+    firebase.uploadBytes(storageRef, file)
       .then(() => {
         console.log('Файл успешно загружен!')
         firebase.getDownloadURL(storageRef)
@@ -114,6 +135,7 @@ export const useAuto = () => {
   return {
     createAuto,
     getAutoList,
+    getAuto,
     clear,
     uploadImage,
     auto,

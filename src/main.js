@@ -12,6 +12,8 @@ import 'primeicons/primeicons.css';
 
 import  'primevue/resources/themes/bootstrap4-dark-purple/theme.css'
 
+import router from '@/router'
+
 
 // import { ToastService } from 'primevue/toast';
 
@@ -31,5 +33,6 @@ const firebaseConfig = {
   const app = createApp(App)
 
   app.use(PrimeVue)
+  app.use(router)
   // app.use(ToastService);
   app.mount('#app')

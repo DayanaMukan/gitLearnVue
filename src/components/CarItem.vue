@@ -20,9 +20,9 @@ function changeColor(color) {
 </script>
 
 <template>
-  <Card>
+  <Card class="card">
     <template #header>
-      <img alt="car" class="car-image" />
+      <img alt="car" class="car-image" :src="auto.image" />
     </template>
 
     <template #title> {{ auto.brand }} </template>
@@ -41,3 +41,6 @@ function changeColor(color) {
     </template>
   </Card>
 </template>
+<style scoped>
+  
+</style>

@@ -42,10 +42,6 @@
           <label for="travel">Пробег</label>
           <Slider v-model="newAuto.travel" :min="0" :max="500000" :step="1000" />
         </div>
-        <div class="p-field">
-          <label for="photo">Картинки</label>
-          <FileUpload id="photo" v-model="newAuto.image" mode="basic" accept="image_for_vue.jpg" @select="onUpload" />
-        </div>
         <form class="input__wrapper" enctype="multipart/form-data">
           <input id="inputfile" class="input inputfile" name="images" type="file" accept=".jpg, .png" @input="onUpload($event)" />
           <label for="inputfile" class="inputfile-button">
@@ -74,7 +70,6 @@ import Calendar from 'primevue/calendar'
 import ColorPicker from 'primevue/colorpicker'
 import RadioButton from 'primevue/radiobutton'
 import Slider from 'primevue/slider'
-import FileUpload from 'primevue/fileupload'
 import { useAuto } from '@/composable/useAuto'
 
 

@@ -2,7 +2,7 @@
     <CarTable/>
 </template>
 <script setup>
-    import {CarTable} from '@/components/Cartable'
+    import CarTable from '@/components/CarTable.vue'
 </script>
 <style scoped>
 
