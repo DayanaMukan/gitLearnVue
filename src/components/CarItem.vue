@@ -1,46 +1,108 @@
-<script setup>
-import { defineProps } from 'vue'
-import Card from 'primevue/card'
-import Chip from 'primevue/chip'
+<template>
+  <Card>
+    <template #header>
+      <img :src="auto.image" class="car-image" />
+    </template>
+    <template #title>{{ auto.brand }}</template>
+    <template #content>
+      <input type="text" v-model="localPrice" @input="updateCar" @click.stop />
+      <p>Год выпуска: {{ auto.year }}</p>
+      <p>Объем двигателя: {{ auto.volume }}</p>
+      <div class="color-container">
+        <p style="margin: 0px; margin-right: 10px">Цвет:</p>
+        <ColorPicker v-model="localColor" disabled />
+      </div>
+    </template>
+    <template #footer>
+      <Chip v-if="Number(localPrice.slice(0, -1)) > 1000000" label="Дорогой" icon="pi pi-apple" />
+      <Chip v-else-if="Number(auto.year) <= 1960" label="Старый" icon="pi pi-history" />
+      <Chip v-else label="Скучный" icon="pi-briefcase" />
+      <Chip v-if="isCrappyColor(localColor)" label="Беспонтовый цвет" icon="pi pi-eye-slash" />
+    </template>
+  </Card>
+</template>
 
-defineProps({
+<script setup>
+import { defineProps, defineEmits, ref } from 'vue'
+import Card from 'primevue/card'
+import ColorPicker from 'primevue/colorpicker'
+import { useAuto } from '../composable/useAuto'
+
+const { updateAuto } = useAuto()
+
+const props = defineProps({
   auto: {
     type: Object,
     required: true,
   },
+  price: {
+    type: String,
+    required: true,
+  },
 })
 
-function changeColor(color) {
+const emit = defineEmits(['update:price'])
+
+const localPrice = ref(props.price)
+const localColor = ref(props.auto.color)
+
+async function updateCar(event) {
+  emit('update:price', event.target.value)
+  localPrice.value = event.target.value
+
+  // Обновляем объект auto только внутри компонента
+  const updatedAuto = { ...props.auto, price: localPrice.value }
+  localColor.value = updatedAuto.color
+
+  await updateAuto(updatedAuto)
+}
+
+function isCrappyColor(color) {
   const crappyColors = ['#FF0000', '#00FF00', '#0000FF']
-  if (crappyColors.includes(color)) {
-    return true
-  }
-  return false
+  return crappyColors.includes(color)
 }
 </script>
 
-<template>
-  <Card class="card">
-    <template #header>
-      <img alt="car" class="car-image" :src="auto.image" />
-    </template>
 
-    <template #title> {{ auto.brand }} </template>
 
-    <template #content>
-      <p>Цена: {{ auto.price }}</p>
-      <p>Год выпуска: {{ auto.year }}</p>
-      <p>Объем двигателя: {{ auto.volume }}</p>
-      <p :style="`color: ${auto.color}`">Цвет: {{ auto.color }}</p>
-    </template>
-    <template #footer>
-      <Chip v-if="Number(auto.price.slice(0, -1)) > 1000000" label="Дорогой" icon="pi pi-apple" />
-      <Chip icon="pi pi-history" label="Старый" v-else-if="Number(auto.year) <= 1960" />
-      <Chip icon="pi pi-briefcase" label="Скучный" v-else />
-      <Chip icon="pi pi-eye-slash" label="Конченный цвет" v-if="changeColor(auto.color)" />
-    </template>
-  </Card>
-</template>
 <style scoped>
-  
+:deep(.p-card) {
+  transform: perspective(1000px) !important;
+  position: relative !important;
+}
+
+:deep(.p-card):hover {
+  animation: transform 1s ease-in-out;
+  cursor: pointer;
+}
+
+@keyframes transform {
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+.car-image {
+  height: 168px;
+  width: 278px;
+}
+
+.color-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.color-box {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  margin-right: 5px;
+  border: 1px solid black;
+}
 </style>
