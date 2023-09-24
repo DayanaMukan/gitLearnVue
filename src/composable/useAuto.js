@@ -1,9 +1,8 @@
 import { collection, getDocs, addDoc } from 'firebase/firestore'
 import { db } from '@/firebases'
-import { getStorage } from 'firebase/storage'
+import { getStorage, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { ref, computed } from 'vue'
 import { createId, formatDate } from '@/services/methods'
-import * as firebase from 'firebase/storage'
 
 export const useAuto = () => {
   // reactive part
@@ -22,9 +21,9 @@ export const useAuto = () => {
     saled: false,
   })
 
-  const autoList = ref([])
   const auto = ref(null)
 
+  const autoList = ref([])
 
   const loading = ref({
     auto: false,
@@ -45,9 +44,6 @@ export const useAuto = () => {
     return _autoListRemake || []
   })
 
-  
-
-
   async function createAuto() {
     loading.value.newAuto = true
     try {
@@ -58,23 +54,6 @@ export const useAuto = () => {
       console.error('Error: ', e)
     }
   }
-
-  async function getAuto(id) {
-    loading.value.auto = true
-    try {
-      const querySnapshot = await getDocs(collection(db,'autos'))
-      querySnapshot.forEach((doc)=>{
-        if(doc.data().id === id){
-          auto.value = doc.data()
-        }
-      })
-    } catch(e){
-      console.error('Error:',e)
-    } finally{
-      loading.value.auto = false
-    }
-  }
-
 
   async function getAutoList() {
     loading.value.autoList = true
@@ -90,30 +69,62 @@ export const useAuto = () => {
     }
   }
 
-  async function uploadImage(file) {
-    console.log(file)
-    const storage = getStorage()
-    console.log(storage)
-    const storageRef = firebase.ref(storage, 'autos/' + file.name)
-    console.log(storageRef)
-  
-    firebase.uploadBytes(storageRef, file)
-      .then(() => {
-        console.log('Файл успешно загружен!')
-        firebase.getDownloadURL(storageRef)
-          .then((downloadURL) => {
-            newAuto.value.image = downloadURL
-          })
-          .catch((error) => {
-            console.error('Ошибка получения ссылки на загруженный файл:', error)
-          })
+  async function updateAuto() {
+    loading.value.auto = true
+    try {
+      await addDoc(collection(db, 'autos'), auto.value).then(async () => {
+        await getAutoList()
       })
-      .catch((error) => {
-        console.error('Ошибка загрузки файла:', error)
-      })
+    } catch (e) {
+      console.error('Error: ', e)
+    }
   }
 
-  
+  async function deleteAuto() {
+    loading.value.auto = true
+    auto.value = null
+    try {
+      await addDoc(collection(db, 'autos'), auto.value).then(async () => {
+        await getAutoList()
+      })
+    } catch (e) {
+      console.error('Error: ', e)
+    }
+  }
+
+  async function getAuto(id) {
+    loading.value.auto = true
+    try {
+      const querySnapshot = await getDocs(collection(db, 'autos'))
+      querySnapshot.forEach((doc) => {
+        if (doc.data().id === id) {
+          auto.value = doc.data()
+        }
+      })
+    } catch (e) {
+      console.error('Error: ', e)
+    } finally {
+      loading.value.auto = false
+    }
+  }
+
+  async function uploadImage() {
+    loading.value.newAuto = true
+    try {
+      const storage = getStorage()
+      const storageRef = ref(storage, `images/${newAuto.value.id}`)
+      await uploadBytes(storageRef, newAuto.value.image).then(async () => {
+        await getDownloadURL(storageRef).then((url) => {
+          newAuto.value.image = url
+        })
+      })
+    } catch (e) {
+      console.error('Error: ', e)
+    } finally {
+      loading.value.newAuto = false
+    }
+  }
+
   function clear() {
     newAuto.value = {
       id: '',
@@ -135,6 +146,8 @@ export const useAuto = () => {
 
   return {
     createAuto,
+    updateAuto,
+    deleteAuto,
     getAutoList,
     getAuto,
     clear,
@@ -145,4 +158,3 @@ export const useAuto = () => {
     loading,
   }
 }
-

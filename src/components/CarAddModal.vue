@@ -1,5 +1,8 @@
 <template>
   <Button icon="pi pi-plus" @click="toggleVisible" />
+  <Button type="button" class="p-link p-ml-auto" @click="googleRegister">
+    <i class="pi pi-user"></i>
+  </Button>
   <Dialog v-model:visible="visible" modal header="Выставить автомобиль" :style="`width: '50vw'`">
     <template #default>
       <div class="p-fluid">
@@ -95,7 +98,7 @@ function clearAuto() {
   toggleVisible()
 }
 
-const gearLabel = ['Механика', 'Автомат', 'Робот', 'Вариатор']
+const gearLabel = ['Механика', 'Вариатор', 'Автомат', 'Робот']
 
 const brandLabel = [
   { brand: 'BMW' },
@@ -112,9 +115,8 @@ const brandLabel = [
   { brand: 'Lexus' },
   { brand: 'Ford' },
   { brand: 'Chevrolet' },
-  { brand: 'Skoda' },
-  { brand: 'Renault' },
-  { brand: 'Peugeot' },
+  { brand: 'Another' },
+  
 ]
 
 const cityLabel = [
@@ -132,11 +134,7 @@ const cityLabel = [
   { city: 'Семей' },
   { city: 'Талдыкорган' },
   { city: 'Тараз' },
-  { city: 'Туркестан' },
-  { city: 'Уральск' },
-  { city: 'Усть-Каменогорск' },
-  { city: 'Шымкент' },
-  { city: 'Экибастуз' },
+
   { city: 'Другой' },
 ]
 
@@ -154,4 +152,32 @@ const carcaseLabel = [
   { carcase: 'Фастбек' },
   { carcase: 'Другой' },
 ]
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+
+
+const googleRegister = () => {
+  const auth = getAuth()
+  const provider = new GoogleAuthProvider()
+
+  signInWithPopup(auth, provider)
+    .then((userCredential) => {
+      const user = userCredential.user
+      localStorage.setItem('user', JSON.stringify(user))
+    })
+    .catch((error) => {
+      const errorCode = error.code
+      const errorMessage = error.message
+      console.log(errorCode, errorMessage)
+    })
+}
 </script>
+<style scoped>
+ i{
+  width: 46px;
+  height: 46px;
+  padding-top: 12px;
+ }
+ Button{
+  margin-left: 10px;
+ }
+</style>

@@ -1,5 +1,4 @@
 <script setup>
-import NavbarComponet from './components/layouts/NavbarComponet.vue'
 import MyPanel from './components/MyPanel.vue'
 import MyFooter from './components/MyFooter.vue'
 import MyMenubar from './components/MyMenubar.vue'
@@ -8,14 +7,21 @@ import CarAddModal from './components/CarAddModal.vue'
 </script>
 
 <template>
-  <NavbarComponet />
-  <CarAddModal/>
-  <MyMenubar />
+  <div class="inline">
+    <CarAddModal/>
+    <MyMenubar />
+  </div>
+  
   <MyPanel />
   <router-view/>
   <MyFooter />
 </template>
 
-<style scoped></style>
+<style scoped>
+  .inline{
+    display: inline-block;
+    width: 500px;
+  }
+</style>
 
 

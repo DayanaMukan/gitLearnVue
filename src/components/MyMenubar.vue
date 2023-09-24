@@ -1,12 +1,7 @@
 <template>
     <menu>
-        <Menubar :model="items" />
-        <button type="button" class="p-link p-ml-auto" @click="googleRegister">
-            <i class="pi pi-user"></i>
-          </button>
-          <button type="button" class="p-link p-ml-auto" @click="createAuto">
-            <i class="pi pi-plus"></i>
-          </button>
+        <Menubar :model="items" class="items"/>
+       
     </menu>
 </template>
 <script setup>
@@ -15,132 +10,30 @@ import Menubar from 'primevue/menubar';
 
 const items = ref([
     {
-        label: 'File',
+        label: 'HOME',
         icon: 'pi pi-fw pi-file',
-        items: [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                items: [
-                    {
-                        label: 'Bookmark',
-                        icon: 'pi pi-fw pi-bookmark'
-                    },
-                    {
-                        label: 'Video',
-                        icon: 'pi pi-fw pi-video'
-                    }
-                ]
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash'
-            },
-            {
-                separator: true
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-external-link'
-            }
-        ]
     },
     {
-        label: 'Edit',
-        icon: 'pi pi-fw pi-pencil',
-        items: [
-            {
-                label: 'Left',
-                icon: 'pi pi-fw pi-align-left'
-            },
-            {
-                label: 'Right',
-                icon: 'pi pi-fw pi-align-right'
-            },
-            {
-                label: 'Center',
-                icon: 'pi pi-fw pi-align-center'
-            },
-            {
-                label: 'Justify',
-                icon: 'pi pi-fw pi-align-justify'
-            }
-        ]
+        label: 'ABOUT',
+        icon: 'pi pi-fw pi-file',
     },
     {
-        label: 'Users',
-        icon: 'pi pi-fw pi-user',
-        items: [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-user-plus'
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-user-minus'
-            },
-            {
-                label: 'Search',
-                icon: 'pi pi-fw pi-users',
-                items: [
-                    {
-                        label: 'Filter',
-                        icon: 'pi pi-fw pi-filter',
-                        items: [
-                            {
-                                label: 'Print',
-                                icon: 'pi pi-fw pi-print'
-                            }
-                        ]
-                    },
-                    {
-                        icon: 'pi pi-fw pi-bars',
-                        label: 'List'
-                    }
-                ]
-            }
-        ]
+        label: 'SERVICES',
+        icon: 'pi pi-fw pi-file',
     },
     {
-        label: 'Events',
-        icon: 'pi pi-fw pi-calendar',
-        items: [
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                items: [
-                    {
-                        label: 'Save',
-                        icon: 'pi pi-fw pi-calendar-plus'
-                    },
-                    {
-                        label: 'Delete',
-                        icon: 'pi pi-fw pi-calendar-minus'
-                    }
-                ]
-            },
-            {
-                label: 'Archieve',
-                icon: 'pi pi-fw pi-calendar-times',
-                items: [
-                    {
-                        label: 'Remove',
-                        icon: 'pi pi-fw pi-calendar-minus'
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        label: 'Quit',
-        icon: 'pi pi-fw pi-power-off'
+        label: 'CONTACS',
+        icon: 'pi pi-fw pi-file',
     }
-]);
+])
 </script>
 <style scoped>
     menu{
         min-width: 100px;
         min-height: 70px;
-        background-color: chocolate;
+        margin-right: 20px;
+    }
+    Menubar{
+        padding-right: 500px;
     }
 </style>

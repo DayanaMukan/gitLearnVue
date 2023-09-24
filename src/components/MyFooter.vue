@@ -17,18 +17,18 @@
         padding-top: 30px;
         min-width: 500px;
         height: 150px;
-        border: 2px solid rgb(164, 106, 13);
-        color: rgb(241, 132, 23);
+        
+        color: rgb(223, 223, 223);
         text-align: center;
-        font-size: 20px;
-        font-weight: 200;
-        background-color: rgb(0, 0, 0);
+        font-size: 24px;
+        font-weight: 500;
+       background-color: rgb(91, 213, 181);
     }
     .copy{
         margin-top: 40px;
     }
     Button{
-        background-color: rgb(215, 128, 29);
+        background-color: rgb(223, 223, 223);
         transition: 1s;
     }
     Button:hover {

@@ -1,6 +1,6 @@
 <template>
     <div class="card">
-        <MyPanel header="Panel" :toggleable="true" :collapsed="panelCollapsed" @toggle="togglePanel">
+        <MyPanel header="Анкета" :toggleable="true" :collapsed="panelCollapsed" @toggle="togglePanel">
             <p class="m-0">
                 <label for="name">Name-Surname</label>
                 <InputText id="name" v-model="value2" type="text" :class="{ 'p-invalid': errorMessage }" aria-describedby="text-error" /><br /><br />

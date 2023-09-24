@@ -10,7 +10,8 @@ import 'primevue/resources/primevue.min.css'
 
 import 'primeicons/primeicons.css';
 
-import  'primevue/resources/themes/bootstrap4-dark-purple/theme.css'
+import 'primevue/resources/themes/lara-dark-teal/theme.css';
+
 
 import router from '@/router'
 
