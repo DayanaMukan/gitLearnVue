@@ -7,10 +7,9 @@ import CarAddModal from './components/CarAddModal.vue'
 </script>
 
 <template>
-  <div class="inline">
     <CarAddModal/>
     <MyMenubar />
-  </div>
+
   
   <MyPanel />
   <router-view/>
@@ -18,10 +17,6 @@ import CarAddModal from './components/CarAddModal.vue'
 </template>
 
 <style scoped>
-  .inline{
-    display: inline-block;
-    width: 500px;
-  }
 </style>
 
 
