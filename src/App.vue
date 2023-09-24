@@ -4,14 +4,15 @@ import MyFooter from './components/MyFooter.vue'
 import MyMenubar from './components/MyMenubar.vue'
 import {RouterView} from 'vue-router'
 import CarAddModal from './components/CarAddModal.vue'
+import CarTable from './components/CarTable.vue'
 </script>
 
 <template>
     <CarAddModal/>
     <MyMenubar />
-
-  
+   
   <MyPanel />
+  <CarTable/>
   <router-view/>
   <MyFooter />
 </template>
